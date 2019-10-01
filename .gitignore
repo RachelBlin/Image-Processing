@@ -1,0 +1,14 @@
+  
+# Type de fichiers à ignorer
+
+*.ipynb_checkpoints/
+*.ipynb_checkpoints
+*.DS_Store
+
+# Dossiers à ignorer
+
+Biblio/Experiences/AOP_filtre_median/
+Biblio/Experiences/DOP_filtre_median/
+Biblio/Experiences/DOP_moyen/
+Biblio/Experiences/AOP_moyen/
+Biblio/Experiences/graphiques/
