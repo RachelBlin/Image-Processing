@@ -25,4 +25,4 @@ All the programs work with Python 3.6. The libraries needed to run the programs 
 
 ## Authors
 
-* **Rachel Blin** - *Initial work* - [Website](http://pagesperso.litislab.fr/rblin/)
+* **Rachel Blin** - [Website](http://pagesperso.litislab.fr/rblin/)
