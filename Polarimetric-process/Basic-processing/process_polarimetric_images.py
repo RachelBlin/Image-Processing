@@ -461,7 +461,7 @@ def concatenate_frames(I, Stokes, AOP, DOP, path_process, k, imgs_polar):
         os.mkdir(path_process + "RetinaNet_Rachel2/")
     imageio.imwrite(path_process + "RetinaNet_Rachel2/" + str(k) + ".png", Rachel)
 
-path_folder = "/media/rblin/EC42-B858/test_polar/Raw/"
-path_process = "/media/rblin/EC42-B858/test_polar/Process/"
+path_folder = "/media/rblin/EC42-B858/test_polar_2/Raw/"
+path_process = "/media/rblin/EC42-B858/test_polar_2/Process/"
 
 process_polar_parameters(path_folder, path_process)

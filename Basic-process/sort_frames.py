@@ -1,7 +1,5 @@
 import os
-import imageio
-import numpy as np
-from shutil import copyfile
+from shutil import copyfile, move
 
 def get_frames(path_folder):
     """
@@ -56,3 +54,22 @@ def get_rgb_frames(path_folder, path_process):
     imgs_rgb = sorted(os.listdir(path_folder))
     for k in range(0, len(imgs_rgb), 50*4):
         copyfile(path_folder + imgs_rgb[k], path_process + imgs_rgb[k])
+
+def move_files_to_right_folder(path_folder):
+    """
+    A function to sort the files in a folder
+
+    :param path_folder: The path of the folder to be sorted
+    """
+    files = get_frames(path_folder)
+    create_directory(path_folder + "/IMAGES")
+    create_directory(path_folder + "/LABELS")
+    for i in range(len(files)):
+        if files[i].split(".")[1] == "png":
+            move(path_folder + "/" + files[i], path_folder + "/IMAGES/" + files[i])
+        elif files[i].split(".")[1] == "xml":
+            move(path_folder + "/" + files[i], path_folder + "/LABELS/" + files[i])
+
+path_folder = "/home/rblin/Téléchargements/OneDrive_1_01-10-2019/RGB_rs_11_05_16"
+
+move_files_to_right_folder(path_folder)
