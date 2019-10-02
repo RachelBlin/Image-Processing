@@ -154,6 +154,15 @@ def polarimetric_constraints(I, image, Stokes, imgs_polar, k, stokes_zero, rho_o
     :param equal_i: The value of the intensities leading to DOP = 0
     """
 
+    # Verifying that I0 + I90 = I45 + I135 by counting the number of pixels not respecting this constraint
+
+    cons = 0
+    for i in range(0, image.shape[1], 2):
+        for j in range(0, image.shape[1], 2):
+            if image[i, j + 1] + image[i + 1, j] != image[i, j] + image[i + 1, j + 1]:
+                cons += 1
+
+
     # Verifying the polarimetric constraint I0 + I90 = I45 + I135 by plotting an histogram of the ratio
     # (I0 + I90)/(I45 + I135) for each pixel of the image
     intens = []
@@ -199,9 +208,10 @@ def polarimetric_constraints(I, image, Stokes, imgs_polar, k, stokes_zero, rho_o
     #   - S0 > 0
     #   - I0 = I45 = I90 = I135 when DOP is 0
     print("Ordered names of the processed polarimetric images: ", imgs_polar)
+    print("Number of pixels for which I0 + I90 != I45 + I135: ", cons)
     print("Number of pixels for which S0 = 0: ", stokes_zero)
     print("Number of pixels for which DOP > 1: ", rho_one)
-    print("Values of the intensities leading to DOP=0: ", equal_i)
+    #print("Values of the intensities leading to DOP=0: ", equal_i)
 
 
 def process_polar_parameters(path_folder, path_process):
