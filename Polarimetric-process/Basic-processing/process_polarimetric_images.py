@@ -58,12 +58,14 @@ def get_stokes_parameters(I, imgs_polar, k):
     Stokes[0] = I[0] + I[2]
     Stokes[1] = I[0] - I[2]
     Stokes[2] = I[1] - I[3]
+    Stokes[3] = I[1] + I[3]
 
     if not os.path.exists(path_process + "Stokes/"):
         os.mkdir(path_process + "Stokes/")
     imageio.imwrite(path_process + "Stokes/" + imgs_polar[k].split(".")[0] + "_S0.png", Stokes[0])
     imageio.imwrite(path_process + "Stokes/" + imgs_polar[k].split(".")[0] + "_S1.png", Stokes[1])
     imageio.imwrite(path_process + "Stokes/" + imgs_polar[k].split(".")[0] + "_S2.png", Stokes[2])
+    imageio.imwrite(path_process + "Stokes/" + imgs_polar[k].split(".")[0] + "_Sdiff.png", abs(Stokes[3]-Stokes[0]))
 
     return Stokes
 
