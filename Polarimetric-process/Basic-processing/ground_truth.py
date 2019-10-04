@@ -201,3 +201,11 @@ diff_intensities = Stokes_0_first - Stokes_0_second
 # (I0 + I90) - (I45 + I135) computed bu this program are the sam:
 if np.any(diff_intensities != diff_intensities_truth):
     print("Manually computed (I0 + I90) - (I45 + I135) not equal to computed (I0 + I90) - (I45 + I135)")
+    
+cons = 0
+for i in range(0, image.shape[1], 2):
+    for j in range(0, image.shape[1], 2):
+       if image[i, j + 1] + image[i + 1, j] != image[i, j] + image[i + 1, j + 1]:
+           cons += 1
+
+print(cons/250000)
