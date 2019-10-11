@@ -14,14 +14,30 @@ def rename_frames_in_order(path_folder):
 
     for f in files:
         name = f.split("_")
-        if len(name[3])==9:
-            name[3] = '000' + name[3]
+        if len(name[4])==9:
+            name[4] = '000' + name[4]
         elif len(name[3])==10:
-            name[3] = '00' + name[3]
+            name[4] = '00' + name[4]
         elif len(name[3])==11:
-            name[3] = '0' + name[3]
-        f_new = name[3]
+            name[4] = '0' + name[4]
+        f_new = name[4]
+        print(f_new)
         os.rename(path_folder + f, path_folder + f_new)
+
+def naive_rename_frames(path_folder):
+    """
+    A function to rename raw polarimetric images to respect the first set of the database
+
+    :param path_folder: The path of the folder containing the images to be renamed
+    """
+
+    try:
+        files = sorted(os.listdir(path_folder))
+    except FileNotFoudError:
+        print("No such file or directory ", path_folder)
+
+    for k in range(len(files)):
+        os.rename(path_folder + files[k], path_folder + str(k) + '.bmp')
 
 def rename_frames_in_order_param(path_folder):
     """
@@ -59,29 +75,29 @@ def rename_rgb(path_rgb_movie):
     :param path_rgb_movie: The path of the folder containing all the images to be renamed
     """
 
-    sequences = sorted(os.listdir(path_rgb_movie))
-    len_seq = 0
-    for seq in sequences:
-        files = os.listdir(path_rgb_movie + seq)
-        if len(files) >=1:
-            for f in files:
-                name = f.split("frame")
-                frame_number = name[1].split(".")
-                nb = str(int(frame_number[0]) + len_seq)
-                if len(nb) == 1:
-                    nb = '000000' + nb
-                elif len(nb) == 2:
-                    nb = '00000' + nb
-                elif len(nb) == 3:
-                    nb = '0000' + nb
-                elif len(nb) == 4:
-                    nb = '000' + nb
-                elif len(nb) == 5:
-                    nb = '00' + nb
-                elif len(nb) == 6:
-                    nb = '0' + nb
-                os.rename(path_rgb_movie + seq + "/" + f, path_rgb_movie + seq + "/" + nb + ".png")
-        len_seq += len(files)
+    #sequences = sorted(os.listdir(path_rgb_movie))
+    #len_seq = 0
+    #for seq in sequences:
+    files = os.listdir(path_rgb_movie) # + seq)
+    if len(files) >=1:
+        for f in files:
+            name = f.split("frame")
+            frame_number = name[1].split(".")
+            nb = str(int(frame_number[0])) # + len_seq)
+            if len(nb) == 1:
+                nb = '000000' + nb
+            elif len(nb) == 2:
+                nb = '00000' + nb
+            elif len(nb) == 3:
+                nb = '0000' + nb
+            elif len(nb) == 4:
+                nb = '000' + nb
+            elif len(nb) == 5:
+                nb = '00' + nb
+            elif len(nb) == 6:
+                nb = '0' + nb
+            os.rename(path_rgb_movie + "/" + f, path_rgb_movie + "/" + nb + ".png")
+    #len_seq += len(files)
 
 def move_rgb(path_rgb_movie, final_path):
     """
@@ -97,10 +113,18 @@ def move_rgb(path_rgb_movie, final_path):
             shutil.move(path_rgb_movie + seq + "/" + f, final_path + f)
 
 
-path_5 = "/media/rblin/87c4f13b-ad62-44ef-babf-70c3e7c8a343/polar/13_05_2019_15h_I/"
+"""path_5 = "/media/rblin/87c4f13b-ad62-44ef-babf-70c3e7c8a343/polar/13_05_2019_15h_I/"
 
 path_rgb_movie = "/home/rblin/Documents/Databases/11_05_2019/frames/"
 final_path = "/home/rblin/Documents/Databases/11_05_2019/rgb/"
 rename_rgb(path_rgb_movie)
 
-move_rgb(path_rgb_movie, final_path)
+move_rgb(path_rgb_movie, final_path)"""
+
+path_folder = "/home/rblin/Téléchargements/brouillard5/"
+
+rename_frames_in_order(path_folder)
+
+#path_rgb_movie = "/home/rblin/Documents/Databases/Cerema/GoPro/brouillard_frames/"
+
+#rename_rgb(path_rgb_movie)

@@ -70,6 +70,13 @@ def move_files_to_right_folder(path_folder):
         elif files[i].split(".")[1] == "xml":
             move(path_folder + "/" + files[i], path_folder + "/LABELS/" + files[i])
 
-path_folder = "/home/rblin/Téléchargements/OneDrive_1_01-10-2019/RGB_rs_11_05_16"
+path_folder = "/home/rblin/Documents/Databases/Cerema/GoPro/brouillard_frames"
+path_directory = "/home/rblin/Documents/Databases/POLARIMETRIC_DB_V2/18_09/jour/brouillard_20m/RGB"
+first_frame = 375
+last_frame = 3542
+step = 60
 
-move_files_to_right_folder(path_folder)
+get_final_frames(path_folder, path_directory, first_frame, last_frame, step)
+
+#move_files_to_right_folder(path_folder)
+

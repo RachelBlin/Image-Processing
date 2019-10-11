@@ -16,5 +16,7 @@ def get_frames_from_vid(path_video, path_frames):
     print("Read a new frame: ", success)
     count += 1
 
-path_video = "/home/rblin/Documents/Databases/11_05_2019/videos/GP040399.MP4"
-path_frames = "/home/rblin/Documents/Databases/11_05_2019/frames/vid5/"
+path_video = "/home/rblin/Documents/Databases/Cerema/GoPro/2eCarte/GOPR0410.MP4"
+path_frames = "/home/rblin/Documents/Databases/Cerema/GoPro/brouillard_frames/"
+
+get_frames_from_vid(path_video, path_frames)
