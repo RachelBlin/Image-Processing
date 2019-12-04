@@ -88,11 +88,57 @@ def remove_bad_images(path_images):
     for k in range(len(images)):
         os.remove(path_images + images[k])
 
-path_images = "/home/rblin/Documents/Databases/POLARIMETRIC_DB_V2/20_02/train_polar/POLAR"
+def remove_images_without_label(path_folder):
+    """
+    A function to remove images without labels
+
+    :param path_folder: The path containing all the images
+    :return:
+    """
+
+
+    labels = os.listdir(path_folder + "LABELS_RGB")
+    images = os.listdir(path_folder + "RGB_rs")
+    for i in images:
+        name_i = i.split(".")
+        if name_i[0] + '.xml' not in labels:
+            os.remove(path_folder + "RGB_rs/" + i)
+            #os.remove(path_folder + "PARAM_POLAR/Params/" + i)
+            #os.remove(path_folder + "PARAM_POLAR/Stokes/" + i)
+
+def remove_labels_without_images(path_folder):
+    """
+    A function to remove labels without images
+
+    :param path_folder: The path containing all the images
+    :return:
+    """
+
+    labels = os.listdir(path_folder + "LABELS_polar")
+    images = os.listdir(path_folder + "POLAR")
+    for l in labels:
+        name_l = l.split(".")
+        if name_l[0] + '.tiff' not in images:
+            os.remove(path_folder + "LABELS_polar/" + l)
+
+def rename_labels(path_folder):
+    labels = os.listdir(path_folder + 'LABELS_polar/')
+    for l in labels:
+        name = l.split('.')
+        number = name[0].split('_')
+        print(name, number)
+        os.rename(path_folder + 'LABELS_polar/' + l, path_folder + 'LABELS_polar/' + number[0] + '.' + name[1])
+
+"""path_images = "/home/rblin/Documents/Databases/POLARIMETRIC_DB_V2/20_02/train_polar/POLAR"
 path_labels = "/home/rblin/Documents/Databases/POLARIMETRIC_DB_V2/20_02/train_polar/LABELS"
 path_final_images = "/home/rblin/Documents/Databases/POLARIMETRIC_DB_V2/20_02/train_polar/PROCESS"
 #path_final_labels = "/home/rblin/Documents/New_polarimetric_DB_3239/train_polar/LABELS/"
 
 copy_database(path_images, path_labels, path_final_images)
 
-#remove_bad_images(path_images)
+#remove_bad_images(path_images)"""
+
+path_folder = '/home/rblin/Documents/Databases/Final_DB/DB_POLAR_RGB_ITS/train_polar/'
+#rename_labels(path_folder)
+#remove_images_without_label(path_folder)
+remove_labels_without_images(path_folder)

@@ -9,9 +9,11 @@ def resize_image(path_image, path_new_image):
     :param path_image: The path of the image to be resized
     :param path_new_image: The path where to save the resized image
     """
-    img_resize = np.zeros((1227-282, 1818-912, 3), dtype=int)
+    img_resize = np.zeros((557, 557, 3), dtype=int)
     image = imageio.imread(path_image)
-    img_resize = image[282:1227, 912:1818, :].copy()
+    #print(image.shape)
+    img_resize[557-480:557,:,:] = image[:, 112:669, :].copy()
+    #img_resize = image[:, 112:669, :].copy()
     imageio.imwrite(path_new_image, img_resize)
 
 
@@ -27,7 +29,7 @@ def resize_images(path_images, path_new_images):
         name = img.split(".")
         resize_image(path_images + img, path_new_images + img)
 
-path_images = "/home/rblin/Documents/Databases/POLARIMETRIC_DB_V2/11_05/15h/RGB/"
-path_new_images = "/home/rblin/Documents/Databases/POLARIMETRIC_DB_V2/11_05/15h/RGB_rs/"
+path_images = "/home/rblin/Documents/Databases/Final_DB/DB_POLAR_RGB_ITS/test_rgb/RGB/"
+path_new_images = "/home/rblin/Documents/Databases/Final_DB/DB_POLAR_RGB_ITS/test_rgb/RGB_rs/"
 
 resize_images(path_images, path_new_images)

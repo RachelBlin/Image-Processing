@@ -70,13 +70,33 @@ def move_files_to_right_folder(path_folder):
         elif files[i].split(".")[1] == "xml":
             move(path_folder + "/" + files[i], path_folder + "/LABELS/" + files[i])
 
-path_folder = "/home/rblin/Documents/Databases/Cerema/GoPro/brouillard_frames"
+def make_txt_voc_file(path_folder, file_name):
+    """
+    A function to make the txt file to train a network in the Pascal VOC format
+
+    :param path_folder: The path of the folder containing the images and labels to be processed
+    :param file_name: The name of the txt file
+    """
+    files = os.listdir(path_folder + "RGB_rs") # + 'I04590')
+    file = path_folder + file_name
+    f = open(file, 'w')
+    for k in files:
+        name = k.split('.')
+        f.write(name[0] + '\n')
+    f.close()
+
+"""path_folder = "/home/rblin/Documents/Databases/Cerema/GoPro/brouillard_frames"
 path_directory = "/home/rblin/Documents/Databases/POLARIMETRIC_DB_V2/18_09/jour/brouillard_20m/RGB"
 first_frame = 375
 last_frame = 3542
 step = 60
 
-get_final_frames(path_folder, path_directory, first_frame, last_frame, step)
+get_final_frames(path_folder, path_directory, first_frame, last_frame, step)"""
 
 #move_files_to_right_folder(path_folder)
 
+
+path_folder = "/home/rblin/Documents/Databases/Final_DB/DB_POLAR_RGB_ITS/val_rgb/"
+file_name = "val_rgb.txt"
+
+make_txt_voc_file(path_folder, file_name)

@@ -37,7 +37,7 @@ def naive_rename_frames(path_folder):
         print("No such file or directory ", path_folder)
 
     for k in range(len(files)):
-        os.rename(path_folder + files[k], path_folder + str(k) + '.bmp')
+        os.rename(path_folder + files[k], path_folder + str(k) + '.tiff')
 
 def rename_frames_in_order_param(path_folder):
     """
@@ -121,10 +121,14 @@ rename_rgb(path_rgb_movie)
 
 move_rgb(path_rgb_movie, final_path)"""
 
-path_folder = "/home/rblin/Téléchargements/brouillard5/"
+#path_folder = "/home/rblin/Téléchargements/brouillard5/"
 
-rename_frames_in_order(path_folder)
+#rename_frames_in_order(path_folder)
 
 #path_rgb_movie = "/home/rblin/Documents/Databases/Cerema/GoPro/brouillard_frames/"
 
 #rename_rgb(path_rgb_movie)
+
+path_folder = "/home/rblin/Documents/Databases/20_02_POLAR/"
+
+naive_rename_frames(path_folder)
