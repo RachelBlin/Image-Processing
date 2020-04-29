@@ -77,7 +77,7 @@ def make_txt_voc_file(path_folder, file_name):
     :param path_folder: The path of the folder containing the images and labels to be processed
     :param file_name: The name of the txt file
     """
-    files = os.listdir(path_folder + "RGB_rs") # + 'I04590')
+    files = os.listdir(path_folder + "POLAR") # + 'I04590')
     file = path_folder + file_name
     f = open(file, 'w')
     for k in files:
@@ -96,7 +96,7 @@ get_final_frames(path_folder, path_directory, first_frame, last_frame, step)"""
 #move_files_to_right_folder(path_folder)
 
 
-path_folder = "/home/rblin/Documents/Databases/Final_DB/DB_POLAR_RGB_ITS/val_rgb/"
-file_name = "val_rgb.txt"
+path_folder = "/home/rblin/Documents/Databases/Final_DB/DB_POLAR_RGB_ITS/val_polar/"
+file_name = "val_polar.txt"
 
 make_txt_voc_file(path_folder, file_name)

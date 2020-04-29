@@ -97,12 +97,15 @@ def remove_images_without_label(path_folder):
     """
 
 
-    labels = os.listdir(path_folder + "LABELS_RGB")
-    images = os.listdir(path_folder + "RGB_rs")
+    #labels = os.listdir(path_folder + "LABELS_RGB")
+    #images = os.listdir(path_folder + "RGB_rs")
+    labels = os.listdir("/media/rblin/87c4f13b-ad62-44ef-babf-70c3e7c8a343/BDD100K_rgb/labels/train/")
+    images = os.listdir("/media/rblin/87c4f13b-ad62-44ef-babf-70c3e7c8a343/bdd_noconst/images/train/")
     for i in images:
         name_i = i.split(".")
         if name_i[0] + '.xml' not in labels:
-            os.remove(path_folder + "RGB_rs/" + i)
+            #os.remove(path_folder + "RGB_rs/" + i)
+            os.remove("/media/rblin/87c4f13b-ad62-44ef-babf-70c3e7c8a343/bdd_noconst/images/train/" + i)
             #os.remove(path_folder + "PARAM_POLAR/Params/" + i)
             #os.remove(path_folder + "PARAM_POLAR/Stokes/" + i)
 
@@ -140,5 +143,5 @@ copy_database(path_images, path_labels, path_final_images)
 
 path_folder = '/home/rblin/Documents/Databases/Final_DB/DB_POLAR_RGB_ITS/train_polar/'
 #rename_labels(path_folder)
-#remove_images_without_label(path_folder)
-remove_labels_without_images(path_folder)
+remove_images_without_label(path_folder)
+#remove_labels_without_images(path_folder)

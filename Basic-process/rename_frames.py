@@ -99,6 +99,42 @@ def rename_rgb(path_rgb_movie):
             os.rename(path_rgb_movie + "/" + f, path_rgb_movie + "/" + nb + ".png")
     #len_seq += len(files)
 
+def rename_frame_and_labels_fusion(path_polar, path_labels):
+    """
+    A function to rename polarimetric images so they're in the same order than their equivalent in RGB
+
+    :param path_polar: Path to the polarimetric images folder
+    """
+    files = sorted(os.listdir(path_polar))
+    labels = sorted(os.listdir(path_labels))
+    if len(files) >= 1:
+        for f in files:
+            name = f.split(".")
+            if name[0][-1] == "1" and int(name[0]) > 51510:
+                frame_number = int(name[0]) - 34960
+                if frame_number >= 0 and frame_number < 10:
+                    nb = '000000' + str(frame_number)
+                elif frame_number >= 10 and frame_number < 100:
+                    nb = '00000' + str(frame_number)
+                elif frame_number >= 100 and frame_number < 1000:
+                    nb = '0000' + str(frame_number)
+                elif frame_number >= 1000 and frame_number < 10000:
+                    nb = '000' + str(frame_number)
+                elif frame_number >= 10000 and frame_number < 100000:
+                    nb = '00' + str(frame_number)
+                elif frame_number >= 100000 and frame_number < 1000000:
+                    nb = '0' + str(frame_number)
+                if os.path.exists(os.path.join(path_polar, f)):
+                    os.rename(os.path.join(path_polar, f), os.path.join(path_polar, nb + "_r.tiff"))
+                    os.rename(os.path.join(path_labels, name[0] + '.xml'), os.path.join(path_labels, nb + "_r.xml"))
+    files_rename = sorted(os.listdir(path_polar))
+    for fr in files_rename:
+        if '_r' in fr:
+            new_name = fr.split('_')
+            old_name = fr.split('.')
+            os.rename(os.path.join(path_polar, fr), os.path.join(path_polar, new_name[0] + '.tiff'))
+            os.rename(os.path.join(path_labels, old_name[0] + ".xml"), os.path.join(path_labels, new_name[0] + ".xml"))
+
 def move_rgb(path_rgb_movie, final_path):
     """
     A function to move RGB images to another folder
@@ -129,6 +165,9 @@ move_rgb(path_rgb_movie, final_path)"""
 
 #rename_rgb(path_rgb_movie)
 
-path_folder = "/home/rblin/Documents/Databases/20_02_POLAR/"
+#path_folder = "/home/rblin/Documents/Databases/20_02_POLAR/"
 
-naive_rename_frames(path_folder)
+path_polar = "/home/rblin/Documents/Databases/Final_DB/DB_POLAR_RGB_ITS/train_polar/POLAR"
+path_labels = "/home/rblin/Documents/Databases/Final_DB/DB_POLAR_RGB_ITS/train_polar/LABELS_polar"
+
+rename_frame_and_labels_fusion(path_polar, path_labels)

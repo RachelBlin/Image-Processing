@@ -3,8 +3,9 @@ import numpy as np
 import imageio
 import matplotlib.pyplot as plt
 import math
+from scipy import stats
 
-path_folder = "DOP_filtre_median/brouillard_dm"
+path_folder = "/home/rblin/Documents/brouillard_statistiques/POLAR/POLAR_ALL/PARAM_POLAR/Stokes2"
 
 files = os.listdir(path_folder)
 
@@ -13,7 +14,7 @@ y_axis = []
 
 n = len(files)
 
-print("Nombre d'éléments : ", n)
+print("Nombre d'elements : ", n)
 
 # Calcul de la liste de la mediane des AOP par image
 for i in range(n):
@@ -21,11 +22,11 @@ for i in range(n):
     med = np.median(image_temp)
     y_axis.append(int(med))
 
-print(y_axis)
+#print(y_axis)
 
 # Tri des valeurs
 y = sorted(y_axis)
-print(y)
+#print(y)
 
 # Calcul de la moyenne des valeurs
 med = 0
@@ -45,7 +46,7 @@ S_2 = sd
 E_t = sd / n
 sd = math.sqrt(E_t)
 
-print("Somme des écarts à la moyenne : ", S_2)
+print("Somme des ecarts a la moyenne : ", S_2)
 print("Ecart-type : ", E_t)
 print("Variance : ", sd)
 
@@ -56,7 +57,7 @@ for l in y_axis:
 
 CA = n/((n-1)*(n-2))*CA
 
-print("Coefficeint d'assymétrie : ", CA)
+print("Coefficient d'assymetrie : ", CA)
 
 # Calcul du coefficient d'applatissement
 CAp = 0
@@ -69,7 +70,7 @@ print("Coefficient d'applatissement : ", CAp)
 
 """Test de Shapiro-Wilk"""
 
-# Calcul de d
+"""# Calcul de d
 d = []
 for a in range(n):
     d_temp = y[n-a-1] - y[a]
@@ -107,16 +108,27 @@ W_005 = 0.927 # n=30
 if W<W_005:
     print("Les données ne suivent pas la loi normale")
 else :
-    print("On ne peut considérer avec une confiance de 95% que les données suivent une loi normale")
+    print("On ne peut considérer avec une confiance de 95% que les données suivent une loi normale")"""
+
+[w, p_value] = stats.shapiro(y)
+
+print("Statistique W du test de Shapiro : ", w)
+print("p-value calculee par le test de Shapiro : ", p_value)
+if w<0.947:
+    print("Les donnees ne suivent pas la loi normale")
+else :
+    print("On ne peut considerer avec une confiance de 95% que les donnees suivent une loi normale")
+
 
 plt.figure(1)
 plt.axhline(y=np.median(y_axis), color='r', linestyle='-')
 plt.plot(x_axis, y_axis, "b+")
-plt.title("DOP médian brouillard début de matinée")
-plt.savefig("graphiques/DOP/filtre_median/bruillard_dm_med.png")
+plt.title("S2 médian brouillard")
+plt.savefig("/home/rblin/Documents/brouillard_statistiques/POLAR/POLAR_ALL/graphs/s2_brouillard_med.png")
 plt.show()
 
 plt.figure(2)
 plt.hist(y_axis, int(len(files)/5))
-plt.savefig("graphiques/DOP/filtre_median/hist_brouillard_dm_med.png")
+plt.title("Répartition S2 médian brouillard")
+plt.savefig("/home/rblin/Documents/brouillard_statistiques/POLAR/POLAR_ALL/graphs/s2_hist_brouillard_med.png")
 plt.show()
