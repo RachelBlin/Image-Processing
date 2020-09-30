@@ -1,0 +1,1 @@
+{"optimizer_config": {"class_name": "Adam", "config": {"clipnorm": 0.001, "lr": 9.999999747378752e-06, "beta_1": 0.8999999761581421, "beta_2": 0.9990000128746033, "decay": 0.0, "epsilon": 1e-07, "amsgrad": false}}, "loss": {"regression2": "_smooth_l1", "classification2": "_focal"}, "metrics": [], "sample_weight_mode": null, "loss_weights": null}
