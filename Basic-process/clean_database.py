@@ -88,6 +88,18 @@ def remove_bad_images(path_images):
     for k in range(len(images)):
         os.remove(path_images + images[k])
 
+def remove_night_images(path_labels):
+    """
+    A function to remove all the badly processed images
+
+    :param path_labels: The path of the folder containing the images that need to be sorted
+    """
+    labels = sorted(os.listdir(path_labels))
+    for k in range(len(labels)):
+        content = open(path_labels + labels[k]).read()
+        if 'night' in content:
+            os.remove(path_labels + labels[k])
+
 def remove_images_without_label(path_folder):
     """
     A function to remove images without labels
@@ -97,17 +109,13 @@ def remove_images_without_label(path_folder):
     """
 
 
-    #labels = os.listdir(path_folder + "LABELS_RGB")
-    #images = os.listdir(path_folder + "RGB_rs")
-    labels = os.listdir("/media/rblin/87c4f13b-ad62-44ef-babf-70c3e7c8a343/BDD100K_rgb/labels/train/")
-    images = os.listdir("/media/rblin/87c4f13b-ad62-44ef-babf-70c3e7c8a343/bdd_noconst/images/train/")
+    #labels = os.listdir(path_folder + "labels/val/")
+    labels = os.listdir(path_folder + "labels/val/")
+    images = os.listdir(path_folder + "images/val/")
     for i in images:
         name_i = i.split(".")
         if name_i[0] + '.xml' not in labels:
-            #os.remove(path_folder + "RGB_rs/" + i)
-            os.remove("/media/rblin/87c4f13b-ad62-44ef-babf-70c3e7c8a343/bdd_noconst/images/train/" + i)
-            #os.remove(path_folder + "PARAM_POLAR/Params/" + i)
-            #os.remove(path_folder + "PARAM_POLAR/Stokes/" + i)
+            os.remove(path_folder + "images/val/" + i)
 
 def remove_labels_without_images(path_folder):
     """
@@ -132,16 +140,7 @@ def rename_labels(path_folder):
         print(name, number)
         os.rename(path_folder + 'LABELS_polar/' + l, path_folder + 'LABELS_polar/' + number[0] + '.' + name[1])
 
-"""path_images = "/home/rblin/Documents/Databases/POLARIMETRIC_DB_V2/20_02/train_polar/POLAR"
-path_labels = "/home/rblin/Documents/Databases/POLARIMETRIC_DB_V2/20_02/train_polar/LABELS"
-path_final_images = "/home/rblin/Documents/Databases/POLARIMETRIC_DB_V2/20_02/train_polar/PROCESS"
-#path_final_labels = "/home/rblin/Documents/New_polarimetric_DB_3239/train_polar/LABELS/"
-
-copy_database(path_images, path_labels, path_final_images)
-
-#remove_bad_images(path_images)"""
-
-path_folder = '/home/rblin/Documents/Databases/Final_DB/DB_POLAR_RGB_ITS/train_polar/'
-#rename_labels(path_folder)
+path_labels = '/home/rblin/Documents/Databases/BDD100K/BDD100K_polarNoC/labels/val/'
+remove_night_images(path_labels)
+path_folder = '/home/rblin/Documents/Databases/BDD100K/BDD100K_polarNoC/'
 remove_images_without_label(path_folder)
-#remove_labels_without_images(path_folder)

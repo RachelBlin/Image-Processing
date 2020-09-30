@@ -42,6 +42,36 @@ def get_intensities(imgs_polar, k):
 
     return I, image
 
+def get_intensities_generate(imgs_polar, k):
+    """
+        Split a Raw polarimetric images into the four intensities
+
+        :param image: The image to be processed
+        :param imgs_polar: The list containing all the polarimetric images in the folder
+        :param k: The index of the image in the imgs_polar list
+        :return: A vector containing all the intensities
+        """
+    image = imageio.imread(path_folder + "/" + imgs_polar[k])
+
+    I = np.zeros((4, image.shape[0], image.shape[1]))
+
+    I[0] = image[:, :, 0]
+    I[1] = image[:, :, 1]
+    I[2] = image[:, :, 2]
+    I[3] = image[:, :, 3]
+
+    # Saving intensities
+    if not os.path.exists(path_process + "I/"):
+        os.mkdir(path_process + "I/")
+    imageio.imwrite(path_process + "I/" + imgs_polar[k].split(".")[0] + "_I0.png", I[0])
+    imageio.imwrite(path_process + "I/" + imgs_polar[k].split(".")[0] + "_I45.png", I[1])
+    imageio.imwrite(path_process + "I/" + imgs_polar[k].split(".")[0] + "_I90.png", I[2])
+    imageio.imwrite(path_process + "I/" + imgs_polar[k].split(".")[0] + "_I135.png", I[3])
+
+    I.astype(int)
+
+    return I, image
+
 def get_stokes_parameters(I, imgs_polar, k):
     """
     Compute the Stokes parameters
@@ -93,25 +123,27 @@ def get_params(I, Stokes, imgs_polar, k, rho_one, equal_i):
     """
 
     AOP = (0.5 * np.arctan2(Stokes[2], Stokes[1]) + np.pi / 2) / np.pi * 255
-    phi = 0.5 * np.arctan2(Stokes[2], Stokes[1])
+    #phi = 0.5 * np.arctan2(Stokes[2], Stokes[1])
     DOP = np.zeros((I.shape[1], I.shape[2]))#, dtype=int)
-    rho = np.zeros((I.shape[1], I.shape[2]))
+    #rho = np.zeros((I.shape[1], I.shape[2]))
     l = 0
     for i in range(I.shape[1]):
         for j in range(I.shape[2]):
-            if np.divide(np.sqrt(np.square(Stokes[2, i, j]) + np.square(Stokes[1, i, j])), Stokes[0, i, j]) > 1:
-                l += 1
+            #if np.divide(np.sqrt(np.square(Stokes[2, i, j]) + np.square(Stokes[1, i, j])), Stokes[0, i, j]) > 1:
+                #l += 1
+            if Stokes[0, i, j] == 0:
+                Stokes[0, i, j] = 1
             DOP[i, j] = np.divide(np.sqrt(np.square(Stokes[2, i, j]) + np.square(Stokes[1, i, j])), Stokes[0, i, j])
-            rho[i, j] = np.divide(np.sqrt(np.square(Stokes[2, i, j]) + np.square(Stokes[1, i, j])), Stokes[0, i, j])
+            #rho[i, j] = np.divide(np.sqrt(np.square(Stokes[2, i, j]) + np.square(Stokes[1, i, j])), Stokes[0, i, j])
             """if DOP[i, j] == 0:
                 equal_i.append([I[0, i, j], I[1, i, j], I[2, i, j], I[3, i, j]])"""
 
-    rho_one.append(l)
+    #rho_one.append(l)
 
-    #DOP = DOP / np.max(DOP) * 255
-    rho = rho
+    DOP = DOP / np.max(DOP) * 255
+    #rho = rho
 
-    im_cos = rho * np.cos(2*phi)
+    """im_cos = rho * np.cos(2*phi)
     im_cos = im_cos / np.max(im_cos) * 255
     im_sin = rho * np.sin(2*phi)
     im_sin = im_sin / np.max(im_sin) * 255
@@ -123,7 +155,7 @@ def get_params(I, Stokes, imgs_polar, k, rho_one, equal_i):
     imageio.imwrite(path_process + "Cos/" + imgs_polar[k].split(".")[0] + "_cos.png", im_cos)
     if not os.path.exists(path_process + "Sin/"):
         os.mkdir(path_process + "Sin/")
-    imageio.imwrite(path_process + "Sin/" + imgs_polar[k].split(".")[0] + "_sin.png", im_sin)
+    imageio.imwrite(path_process + "Sin/" + imgs_polar[k].split(".")[0] + "_sin.png", im_sin)"""
 
     # Saving the AOP and DOP
 
@@ -137,7 +169,7 @@ def get_params(I, Stokes, imgs_polar, k, rho_one, equal_i):
     #AOP.astype(int)
     #DOP.astype(int)
 
-    return AOP, DOP, im_cos, im_sin, rho, phi
+    return AOP, DOP#, im_cos, im_sin, rho, phi
 
 def plot_histogram(bins, data, title, saving_path, hist_name):
     """
@@ -291,6 +323,7 @@ def process_polar_parameters(path_folder, path_process):
 
         # Intensities of the polarimetric image
         I, image = get_intensities(imgs_polar, k)
+        #I, image = get_intensities_generate(imgs_polar, k)
 
         # Stokes parameters
 
@@ -299,9 +332,10 @@ def process_polar_parameters(path_folder, path_process):
 
         # Angle (AOP) and Degree (DOP) of Polarization
 
-        AOP, DOP, im_cos, im_sin, rho, phi = get_params(I, Stokes, imgs_polar, k, rho_one, equal_i)
+        #AOP, DOP, im_cos, im_sin, rho, phi = get_params(I, Stokes, imgs_polar, k, rho_one, equal_i)
+        AOP, DOP = get_params(I, Stokes, imgs_polar, k, rho_one, equal_i)
 
-        hsv, CC, modified_CC, S0_star, DOP_star, beta, beta_star, S0_starstar, DOP_starstar, beta_starstar = fusion_algorithm(phi, rho, Stokes, I)
+        """hsv, CC, modified_CC, S0_star, DOP_star, beta, beta_star, S0_starstar, DOP_starstar, beta_starstar = fusion_algorithm(phi, rho, Stokes, I)
         if not os.path.exists(path_process + "hsv_fusion/"):
             os.mkdir(path_process + "hsv_fusion/")
         imageio.imwrite(path_process + "hsv_fusion/" + imgs_polar[k].split(".")[0] + ".png", hsv)
@@ -342,11 +376,11 @@ def process_polar_parameters(path_folder, path_process):
 
         # Verifying the polarimetric constraints
 
-        #polarimetric_constraints(I, image, Stokes, imgs_polar, k, stokes_zero, rho_one, equal_i)
+        #polarimetric_constraints(I, image, Stokes, imgs_polar, k, stokes_zero, rho_one, equal_i)"""
 
-        concatenate_frames(I, Stokes, AOP, DOP, path_process, k, imgs_polar, Min, Max, im_cos, im_sin, rho, phi)
+        #concatenate_frames(I, Stokes, AOP, DOP, path_process, k, imgs_polar) #, Min, Max, im_cos, im_sin, rho, phi)
 
-def concatenate_frames(I, Stokes, AOP, DOP, path_process, k, imgs_polar, Min, Max, im_cos, im_sin, rho, phi):
+def concatenate_frames(I, Stokes, AOP, DOP, path_process, k, imgs_polar): #, Min, Max, im_cos, im_sin, rho, phi):
     """
     A function to concatenate frames in order to get 3 channels images
 
@@ -511,16 +545,17 @@ def concatenate_frames(I, Stokes, AOP, DOP, path_process, k, imgs_polar, Min, Ma
         os.mkdir(path_process + "RetinaNet_eq10/")
     imageio.imwrite(path_process + "RetinaNet_eq10/" + str(k) + ".png", im_I4590135)"""
 
-    """# retinaNet Stokes
-    im_Stokes = np.zeros((500, 500, 3))
+    # retinaNet Stokes
+    im_Stokes = np.zeros((Stokes.shape[1], Stokes.shape[2], 3))
     im_Stokes[:, :, 0] = Stokes[0]
     im_Stokes[:, :, 1] = Stokes[1]
     im_Stokes[:, :, 2] = Stokes[2]
     if not os.path.exists(path_process + "Stokes/"):
         os.mkdir(path_process + "Stokes/")
-    imageio.imwrite(path_process + "Stokes/" + imgs_polar[k].split(".")[0] + ".png", im_Stokes)"""
+    imageio.imwrite(path_process + "Stokes/" + imgs_polar[k].split(".")[0] + ".png", im_Stokes)
+    """
 
-    """# RetinaNet Params
+    # RetinaNet Params
     im_Params = np.zeros((500, 500, 3))
     im_Params[:, :, 0] = Stokes[0]
     im_Params[:, :, 1] = AOP
@@ -659,7 +694,10 @@ def concatenate_frames(I, Stokes, AOP, DOP, path_process, k, imgs_polar, Min, Ma
         os.mkdir(path_process + "RetinaNet_Rachel2/")
     imageio.imwrite(path_process + "RetinaNet_Rachel2/" + str(k) + ".png", Rachel)"""
 
-path_folder = "/home/rblin/Documents/brouillard_statistiques/real_raw/POLAR/"
-path_process = "/home/rblin/Documents/brouillard_statistiques/real_raw/PARAM_POLAR/"
+#path_folder = "/home/rblin/Documents/brouillard_statistiques/real_raw/POLAR/"
+#path_process = "/home/rblin/Documents/brouillard_statistiques/real_raw/PARAM_POLAR/"
+
+path_folder = "//home/rblin/Documents/New_illustrations_ACCV/POLAR/"
+path_process = "//home/rblin/Documents/New_illustrations_ACCV/PARAM_POLAR/"
 
 process_polar_parameters(path_folder, path_process)

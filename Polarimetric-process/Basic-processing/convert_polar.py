@@ -138,8 +138,8 @@ def plot_histogram_stokes(path_folder):
 
 #plot_histogram_ias(path_folder)
 
-path_folder = "/home/rblin/Documents/Databases/appendix/kitti_polar_no_c"
-path_destination = "/home/rblin/Documents/Databases/appendix/intensities_no_c"
+path_folder = "/home/rblin/Documents/New_illustrations_ACCV/Polar_gen"
+path_destination = "/home/rblin/Documents/New_illustrations_ACCV/Intensities"
 
 get_four_intensities(path_folder, path_destination)
 
