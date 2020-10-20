@@ -99,6 +99,26 @@ def rename_rgb(path_rgb_movie):
             os.rename(path_rgb_movie + "/" + f, path_rgb_movie + "/" + nb + ".png")
     #len_seq += len(files)
 
+def rename_test_polar(path_test_polar):
+    """
+    A function to rename test_polar images
+
+    :param path_rgb_movie: The path of the folder containing all the images to be renamed
+    """
+
+    files = os.listdir(path_test_polar)
+    if len(files) >=1:
+        for f in files:
+            frame_number = f.split(".")
+            nb = frame_number[0]
+            if len(nb) == 1:
+                nb = '000' + nb
+            elif len(nb) == 2:
+                nb = '00' + nb
+            elif len(nb) == 3:
+                nb = '0' + nb
+            os.rename(path_test_polar + "/" + f, path_test_polar + "/" + nb + ".png")
+
 def rename_frame_and_labels_fusion(path_polar, path_labels):
     """
     A function to rename polarimetric images so they're in the same order than their equivalent in RGB
@@ -167,7 +187,11 @@ move_rgb(path_rgb_movie, final_path)"""
 
 #path_folder = "/home/rblin/Documents/Databases/20_02_POLAR/"
 
-path_polar = "/home/rblin/Documents/Databases/Final_DB/DB_POLAR_RGB_ITS/train_polar/POLAR"
-path_labels = "/home/rblin/Documents/Databases/Final_DB/DB_POLAR_RGB_ITS/train_polar/LABELS_polar"
+#path_polar = "/home/rblin/Documents/Databases/Final_DB/DB_POLAR_RGB_ITS/train_polar/POLAR"
+#path_labels = "/home/rblin/Documents/Databases/Final_DB/DB_POLAR_RGB_ITS/train_polar/LABELS_polar"
 
-rename_frame_and_labels_fusion(path_polar, path_labels)
+#rename_frame_and_labels_fusion(path_polar, path_labels)
+
+path_test_polar = "/home/rblin/Documents/Databases/PolarLITIS/test_polar/PARAM_POLAR/CosSin"
+
+rename_test_polar(path_test_polar)
