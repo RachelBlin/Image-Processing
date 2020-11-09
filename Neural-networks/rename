@@ -1,0 +1,44 @@
+f.copy("/model_weights/res4b36_branch2a/res4b36_branch2a", "/model_weights/res4b36_branch2a2/res4b36_branch2a2")
+    del f["model_weights"]['res4b36_branch2a']
+
+    f["model_weights"]["res4b36_branch2a2"].attrs["weight_names"] = [b'res4b36_branch2a2/kernel:0']
+
+    f.copy("/model_weights/bn4b36_branch2a/bn4b36_branch2a", "/model_weights/bn4b36_branch2a2/bn4b36_branch2a2")
+    del f["model_weights"]['bn4b36_branch2a']
+
+    f["model_weights"]["bn4b36_branch2a2"].attrs["weight_names"] = b'bn4b36_branch2a2/gamma:0', b'bn4b36_branch2a2/beta:0', b'bn4b36_branch2a2/moving_mean:0', b'bn4b36_branch2a2/moving_variance:0'
+
+    f.copy("/model_weights/res4b36_branch2a_relu", "/model_weights/res4b36_branch2a_relu2")
+    del f["model_weights"]['res4b36_branch2a_relu']
+
+    f.copy("/model_weights/padding4b36_branch2b", "/model_weights/padding4b36_branch2b2")
+    del f["model_weights"]['padding4b36_branch2b']
+
+    f.copy("/model_weights/res4b36_branch2b/res4b36_branch2b", "/model_weights/res4b36_branch2b2/res4b36_branch2b2")
+    del f["model_weights"]['res4b36_branch2b']
+
+    f["model_weights"]["res4b36_branch2b2"].attrs["weight_names"] = [b'res4b36_branch2b2/kernel:0']
+
+    f.copy("/model_weights/bn4b36_branch2b/bn4b36_branch2b", "/model_weights/bn4b36_branch2b2/bn4b36_branch2b2")
+    del f["model_weights"]['bn4b36_branch2b']
+
+    f["model_weights"]["bn4b36_branch2b2"].attrs["weight_names"] = b'bn4b36_branch2b2/gamma:0', b'bn4b36_branch2b2/beta:0', b'bn4b36_branch2b2/moving_mean:0', b'bn4b36_branch2b2/moving_variance:0'
+
+    f.copy("/model_weights/res4b36_branch2b_relu", "/model_weights/res4b36_branch2b_relu2")
+    del f["model_weights"]['res4b36_branch2b_relu']
+
+    f.copy("/model_weights/res4b36_branch2c/res4b36_branch2c", "/model_weights/res4b36_branch2c2/res4b36_branch2c2")
+    del f["model_weights"]['res4b36_branch2c']
+
+    f["model_weights"]["res4b36_branch2c2"].attrs["weight_names"] = [b'res4b36_branch2c2/kernel:0']
+
+    f.copy("/model_weights/bn4b36_branch2c/bn4b36_branch2c", "/model_weights/bn4b36_branch2c2/bn4b36_branch2c2")
+    del f["model_weights"]['bn4b36_branch2c']
+
+    f["model_weights"]["bn4b36_branch2c2"].attrs["weight_names"] = b'bn4b36_branch2c2/gamma:0', b'bn4b36_branch2c2/beta:0', b'bn4b36_branch2c2/moving_mean:0', b'bn4b36_branch2c2/moving_variance:0'
+
+    f.copy("/model_weights/res4b36", "/model_weights/res4b362")
+    del f["model_weights"]['res4b36']
+
+    f.copy("/model_weights/res4b36_relu", "/model_weights/res4b36_relu2")
+    del f["model_weights"]['res4b36_relu']
