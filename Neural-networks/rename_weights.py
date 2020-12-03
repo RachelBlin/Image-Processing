@@ -5021,6 +5021,6 @@ def rename_resnet152(filepath):
 #filepath = "/home/rblin/Documents/weights/test_rename/resnet101_pascal_02.h5"
 #rename_resnet101(filepath)
 
-filepath = "/home/rblin/Documents/weights/test_rename/resnet152_pascal_08.h5"
+filepath = "/home/rblin/Documents/weights/test_rename/resnet152_pascal_06.h5"
 rename_resnet152(filepath)
 
